@@ -1,7 +1,6 @@
 name: 发布子应用
 on: # 触发时机
   push: # 代码提交触发
-    branches: [main] # 在main, develop分支
 
 jobs:
   deploy:
