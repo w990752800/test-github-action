@@ -1,0 +1,54 @@
+name: 发布子应用
+on: # 触发时机
+  push: # 代码提交触发
+    branches: [main] # 在main, develop分支
+    paths: # 匹配路径
+      - '/sub-apps/**'
+      - '.github/workflows/a.yml'
+  workflow_dispatch: # 手动触发action
+    inputs:
+      publish_sub_apps:
+        description: 发布子应用
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    # https://github.com/actions/virtual-environments#available-environments
+    runs-on: ubuntu-latest
+    name: 子应用打包，发布
+    steps:
+      - name: 检查修改的目录 # 检查修改过的目录
+        id: aaa
+        uses: georgeneto/directory-changes-checker@v1
+        with:
+          directory: '{sub-apps}'
+
+      - name: 判断目录是否变化
+        if: ${{steps.aaa.output.hasChanges}} == 'true' #running other step only if directory is found in the list of files from last commit
+
+      - name: 找到变化的目录
+        run: echo ${{steps.aaa.output}}
+      # - name: 找到变化的目录
+      #   run: |
+      #     for file in ${{ steps.changed-schemas.outputs.all_changed_files }}; do
+      #       npx zx packages/lc-sub-apps/scripts/build-schema.mjs --release=true $file
+      #     done
+      #   if: ${{ !inputs.schema_pattern }}
+      # - name: Build sub-apps for specified schemas
+      #   run: |
+      #     for file in packages/lc-sub-apps/schemas/${{ inputs.schema_pattern }}; do
+      #       npx zx packages/lc-sub-apps/scripts/build-schema.mjs --release=true $file
+      #     done
+      #   if: ${{ inputs.schema_pattern }}
+      # - name: Copy to COS bucket
+      #   uses: wei/rclone@v1.1.1
+      #   env:
+      #     RCLONE_CONFIG_COS_TYPE: s3
+      #     RCLONE_CONFIG_COS_PROVIDER: TencentCOS
+      #     RCLONE_CONFIG_COS_ACCESS_KEY_ID: ${{ steps.vars.outputs.stage == 'prod' && secrets.PROD_TENCENT_SECRET_ID || secrets.DEV_TENCENT_SECRET_ID }}
+      #     RCLONE_CONFIG_COS_SECRET_ACCESS_KEY: ${{ steps.vars.outputs.stage == 'prod' && secrets.PROD_TENCENT_SECRET_KEY || secrets.DEV_TENCENT_SECRET_KEY }}
+      #     RCLONE_CONFIG_COS_ENDPOINT: cos.${{ fromJSON('{"dev":"ap-guangzhou", "test":"ap-guangzhou", "prod":"ap-shanghai" }')[steps.vars.outputs.stage] }}.myqcloud.com
+      #     RCLONE_CONFIG_COS_ACL: public-read
+      #   with:
+      #     args: copy ./out/ cos:main-${{ steps.vars.outputs.stage }}-hetu-${{ steps.vars.outputs.stage == 'prod' && '1305049745' || '1310070803' }}/_sub-apps/
