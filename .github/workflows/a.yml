@@ -5,12 +5,6 @@ on: # 触发时机
     paths: # 匹配路径
       - '/sub-apps/**'
       - '.github/workflows/a.yml'
-  workflow_dispatch: # 手动触发action
-    inputs:
-      publish_sub_apps:
-        description: 发布子应用
-        required: true
-        type: string
 
 jobs:
   deploy:
