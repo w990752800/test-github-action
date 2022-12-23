@@ -37,7 +37,6 @@ jobs:
 
       - name: 遍历目录
         run: |
-          for dir in $(ls /sub-apps/)
-          do 
+          for dir in $(ls /sub-apps/); do 
             [ -d $dir ] echo $dir
           down
