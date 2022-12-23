@@ -14,12 +14,10 @@ jobs:
         uses: georgeneto/directory-changes-checker@v1
         with:
           directory: '{sub-apps}'
-
-      - name: 判断目录是否变化
-        if: ${{steps.aaa.output.hasChanges}} == 'true' #running other step only if directory is found in the list of files from last commit
-
-      - name: 找到变化的目录
-        run: echo ${{steps.aaa.output}}
+      # - name: 判断目录是否变化
+      #   if: ${{steps.aaa.output.hasChanges}} == 'true' #running other step only if directory is found in the list of files from last commit
+      # - name: 找到变化的目录
+      #   run: echo ${{steps.aaa.output}}
       # - name: 找到变化的目录
       #   run: |
       #     for file in ${{ steps.changed-schemas.outputs.all_changed_files }}; do
