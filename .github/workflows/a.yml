@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     name: 子应用打包，发布
     steps:
+      - uses: actions/checkout@v3
       - name: 检查修改的目录 # 检查修改过的目录
         id: aaa
         uses: georgeneto/directory-changes-checker@v1
