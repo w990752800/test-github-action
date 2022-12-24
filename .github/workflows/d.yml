@@ -40,11 +40,11 @@ jobs:
         with:
           filters: |
             a:
-              - 'sub-apps/a/**'
+              - 'packages/sub-apps/a/**'
             b:
-              - 'sub-apps/b/**'
+              - 'packages/sub-apps/b/**'
             c:
-              - 'sbu-apps/c/**'
+              - 'packages/sbu-apps/c/**'
 
       # run only if some file in 'src' folder was changed
       - if: steps.changes.outputs.a == 'true'
