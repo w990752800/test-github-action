@@ -34,3 +34,22 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+        filters: |
+          a:
+            - 'sub-apps/a/**'
+          b:
+            - 'sub-apps/b/**'
+          c:
+            - 'sbu-apps/c/**'
+
+      # run only if some file in 'src' folder was changed
+      - if: steps.changes.outputs.a == 'true'
+        run: echo aaaaa 变化了.
+      - if: steps.changes.outputs.b == 'true'
+        run: echo bbbbb 变化了.
+      - if: steps.changes.outputs.c == 'true'
+        run: echo ccccc 变化了.
