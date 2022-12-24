@@ -34,9 +34,3 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-
-      - name: 遍历目录
-        run: |
-          for dir in $(ls /sub-apps/); do 
-            [ -d $dir ] echo $dir
-          down
