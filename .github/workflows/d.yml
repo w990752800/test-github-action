@@ -38,13 +38,13 @@ jobs:
       - uses: dorny/paths-filter@v2
         id: changes
         with:
-        filters: |
-          a:
-            - 'sub-apps/a/**'
-          b:
-            - 'sub-apps/b/**'
-          c:
-            - 'sbu-apps/c/**'
+          filters: |
+            a:
+              - 'sub-apps/a/**'
+            b:
+              - 'sub-apps/b/**'
+            c:
+              - 'sbu-apps/c/**'
 
       # run only if some file in 'src' folder was changed
       - if: steps.changes.outputs.a == 'true'
